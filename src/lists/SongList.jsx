@@ -46,7 +46,6 @@ function SongList(){
                     {songs.map((song) => <Song key={song.id} songName={song.songName} />)}
                 </ul>
             </div>
-
         </>
     )
 }
