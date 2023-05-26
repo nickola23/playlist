@@ -2,25 +2,19 @@ import { useState } from 'react';
 
 function SongList(){
 
-    const songs = [
-        {id: 1, songName: "Queen of Kings"},
-        {id: 2, songName: "Unicorn"}
-    ];
-
-    var i = 0;
-    songs.forEach(s => {
-        i++;
-    });
+    const [songs, setSongs] = useState([]);
     
+    const [playSongs, setPlaySongs] = useState([]);
 
-function Song(props){
+    const [inputSong, setInputSong] = useState("");
+
+    function Song(props){
         return(
-        <div>
+        <li>
             { props.songName }
-        </div>
+        </li>
         )
-}
-const [inputSong, setInputSong] = useState("");
+    }
     
     const handleChange = (event) => {
         setInputSong(event.target.value)
@@ -28,27 +22,31 @@ const [inputSong, setInputSong] = useState("");
 
     const handleSubmitSong =  (event) => {
         event.preventDefault();
-        addSongToList(i++, inputSong);
-
+        addSongToList(inputSong);
     }
 
-    function addSongToList(id, name){
-        songs.push({id:id, name:name});
-        console.log(songs[id]);
-
+    function addSongToList(name){
+        
+        var i = 0;
+        songs.forEach(s => {
+            i++;
+        });
+        setSongs(songs => [...songs, {id: i, songName: name}]);
+        console.log(songs);
     }
     
     return(
         <>
-            <div className="songList">
-                <ul>
-                    {songs.map((song) => <Song key={song.id} songName={song.songName} />)}
-                </ul>
-            </div>
             <form>
                 <input type='text' value={ inputSong } onChange={ handleChange } />
                 <input type="submit" value='Dodaj pesmu' onClick={ handleSubmitSong }/>
             </form>
+            <div>
+                <ul>
+                    {songs.map((song) => <Song key={song.id} songName={song.songName} />)}
+                </ul>
+            </div>
+
         </>
     )
 }
